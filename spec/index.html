@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFAMDF: Secure, Federated, Adaptable Multi-Agent Defense Framework</title>
+    <meta name="description" content="A proactive defense architecture for securing agentic AI systems operating over the Model Context Protocol (MCP)">
+    
+    <!-- Mermaid for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2B579A;
+            --secondary: #5B9BD5;
+            --accent: #70AD47;
+            --warning: #ED7D31;
+            --danger: #D73B3E;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        header .tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Main content */
+        main {
+            background: white;
+            padding: 40px 0;
+        }
+        
+        section {
+            margin-bottom: 60px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #444;
+        }
+        
+        /* Problem/Solution boxes */
+        .problem-box {
+            background: #fff5f5;
+            border-left: 4px solid var(--danger);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .solution-box {
+            background: #f0fff4;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Comparison table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table .reactive {
+            color: var(--danger);
+        }
+        
+        .comparison-table .proactive {
+            color: var(--accent);
+        }
+        
+        /* Diagram containers */
+        .diagram-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+        
+        .diagram-container h4 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* Principle cards */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .principle-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .principle-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .principle-card .icon {
+            font-size: 1.5rem;
+        }
+        
+        /* Code blocks */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+        }
+        
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .code-block .comment {
+            color: #6a9955;
+        }
+        
+        /* Authors section */
+        .authors {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .author-card {
+            flex: 1;
+            min-width: 280px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .author-card h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .author-card .role {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .author-card p {
+            font-size: 0.95rem;
+        }
+        
+        /* Call to action */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-section h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .cta-section p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 25px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        footer a {
+            color: var(--secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>SFAMDF</h1>
+            <p class="subtitle">Secure, Federated, Adaptable Multi-Agent Defense Framework</p>
+            <p class="tagline">Proactive Defense Architecture for MCP-Based Agentic AI Systems</p>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#vision">Vision</a></li>
+            <li><a href="#principles">Principles</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#comparison">Reactive vs Proactive</a></li>
+            <li><a href="#authors">Authors</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="container">
+            
+            <!-- Vision Section -->
+            <section id="vision">
+                <h2>Beyond Reactive Defense</h2>
+                
+                <p>The Model Context Protocol (MCP) has rapidly become the standard for connecting AI agents to enterprise tools and data. But there's a growing gap between MCP's adoption curve and its security maturity.</p>
+                
+                <div class="problem-box">
+                    <h4>🔴 The Problem with Reactive Security</h4>
+                    <p>Current security guidance focuses on <strong>reactive patterns</strong>: sanitize outputs against known injection patterns, validate schemas, enforce allowlists. These controls are necessary—but insufficient.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Adversaries adapt faster than pattern libraries update</li>
+                        <li>Attacks coordinate across organizational boundaries</li>
+                        <li>Novel combinations evade individual controls</li>
+                        <li>Human oversight becomes a bottleneck, not an advantage</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-box">
+                    <h4>🟢 The SFAMDF Vision</h4>
+                    <p><strong>Defense agents that observe, correlate, and adapt</strong>—not just defense rules that match and block.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Behavioral detection catches what patterns miss</li>
+                        <li>Federated intelligence correlates across boundaries</li>
+                        <li>Governance contracts ensure predictable delegation</li>
+                        <li>Expert judgment at decision points, not approval queues</li>
+                    </ul>
+                </div>
+                
+                <div class="diagram-container">
+                    <h4>Reactive vs Proactive Model</h4>
+                    <div class="mermaid">
+flowchart LR
+    subgraph Reactive["🔴 REACTIVE MODEL"]
+        direction TB
+        R1[Known Attack] --> R2[Pattern Match]
+        R2 --> R3[Known Remediation]
+        R3 --> R4[Log]
+    end
+    
+    subgraph Proactive["🟢 PROACTIVE MODEL (SFAMDF)"]
+        direction TB
+        P1[Behavioral Signal] --> P2[Anomaly Correlation]
+        P2 --> P3[Adaptive Response]
+        P3 --> P4[Expert-in-the-Loop]
+        P4 -.->|Feedback| P1
+    end
+    
+    Reactive -.->|"Limited to known patterns"| X1[❌ Novel attacks missed]
+    Proactive -.->|"Adapts to emerging threats"| X2[✅ Novel attacks detected]
+    
+    style Reactive fill:#ffebee,stroke:#c62828
+    style Proactive fill:#e8f5e9,stroke:#2e7d32
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Core Principles Section -->
+            <section id="principles">
+                <h2>Core Principles</h2>
+                
+                <div class="principles-grid">
+                    <div class="principle-card">
+                        <h4><span class="icon">📊</span> Behavioral Detection</h4>
+                        <p>Establish baselines and detect anomalies. Catch novel attacks that evade pattern libraries through contextual behavioral analysis.</p>
+                        <div class="code-block">
+<span class="comment"># Reactive</span>
+<span class="keyword">if</span> output <span class="keyword">matches</span> pattern → block
+
+<span class="comment"># Proactive</span>
+<span class="keyword">if</span> behavior <span class="keyword">deviates</span> baseline → investigate
+                        </div>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <h4><span class="icon">🌐</span> Federated Intelligence</h4>
+                        <p>Share anonymized threat signals across trust boundaries. Detect coordinated attacks that manifest partially in multiple organizations.</p>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 10px;">Sovereignty preserved: local policies always override federated recommendations.</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <h4><span class="icon">📜</span> Governance Contracts</h4>
+                        <p>AgentManifest declarations specify capability bounds, delegation rules, and escalation triggers—enforced at runtime by AgentBox.</p>
+                        <div class="code-block">
+<span class="keyword">capabilities:</span>
+  - <span class="string">monitor</span>
+  - <span class="string">alert</span>
+<span class="keyword">escalation:</span>
+  <span class="string">threshold: 0.85</span>
+                        </div>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <h4><span class="icon">👤</span> Expert-in-the-Loop</h4>
+                        <p>Humans are expert judgment sources at decision points—not approval queues. Route to experts when their judgment adds value; automate the rest.</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <h4><span class="icon">🔄</span> Adaptive Response</h4>
+                        <p>Begin defensive posture on partial patterns. Escalate from observation → isolation → active defense. Successful defenses update baselines automatically.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Architecture Section -->
+            <section id="architecture">
+                <h2>Defense Architecture</h2>
+                
+                <p>SFAMDF implements defense-in-depth through multiple complementary layers, from federated trust coordination down to sandboxed operator execution.</p>
+                
+                <div class="diagram-container">
+                    <h4>SFAMDF Layered Architecture</h4>
+                    <div class="mermaid">
+flowchart TB
+    subgraph Fed["🌐 FEDERATED TRUST LAYER"]
+        F1[Cross-Org Correlation]
+        F2[Threat Signal Sharing]
+        F3[Sovereignty Preservation]
+    end
+    
+    subgraph Orch["🎯 ORCHESTRATION LAYER"]
+        O1[Orchestrator Agent]
+        O2[Governance Engine]
+        O3[Trust Registry]
+    end
+    
+    subgraph Gate["🛡️ GATEWAY LAYER"]
+        G1[Behavioral Monitor]
+        G2[Anomaly Detector]
+        G3[Policy Enforcer]
+    end
+    
+    subgraph Op["⚙️ OPERATOR LAYER"]
+        subgraph Box1["AgentBox"]
+            OP1[Defense Operator A]
+        end
+        subgraph Box2["AgentBox"]
+            OP2[Defense Operator B]
+        end
+        subgraph Box3["AgentBox"]
+            OP3[Defense Operator C]
+        end
+    end
+    
+    subgraph MCP["🔌 MCP SERVER LAYER"]
+        M1[Internal Server]
+        M2[Partner Server]
+        M3[External Server]
+    end
+    
+    Fed --> Orch
+    Orch --> Gate
+    Gate --> Op
+    Op --> MCP
+    
+    style Fed fill:#e3f2fd,stroke:#1565c0
+    style Orch fill:#fff3e0,stroke:#ef6c00
+    style Gate fill:#e8f5e9,stroke:#2e7d32
+    style Op fill:#fce4ec,stroke:#c2185b
+    style MCP fill:#f3e5f5,stroke:#7b1fa2
+                    </div>
+                </div>
+                
+                <h3>The Orchestrator-Operator Model</h3>
+                
+                <p>SFAMDF distinguishes two agent roles with clear behavioral definitions:</p>
+                
+                <div class="diagram-container">
+                    <h4>Agent Hierarchy</h4>
+                    <div class="mermaid">
+flowchart TD
+    subgraph Strategic["Strategic Layer"]
+        ORC[🎯 Orchestrator Agent]
+    end
+    
+    subgraph Tactical["Tactical Layer"]
+        SO1[Sub-Orchestrator A]
+        SO2[Sub-Orchestrator B]
+    end
+    
+    subgraph Execution["Execution Layer (AgentBox Sandboxed)"]
+        OP1[Monitor Operator]
+        OP2[Correlator Operator]
+        OP3[Response Operator]
+        OP4[Alert Operator]
+    end
+    
+    ORC -->|Delegate| SO1
+    ORC -->|Delegate| SO2
+    SO1 -->|Assign| OP1
+    SO1 -->|Assign| OP2
+    SO2 -->|Assign| OP3
+    SO2 -->|Assign| OP4
+    
+    OP1 -.->|Report| SO1
+    OP2 -.->|Report| SO1
+    OP3 -.->|Report| SO2
+    OP4 -.->|Report| SO2
+    
+    style Strategic fill:#2B579A,color:#fff
+    style Tactical fill:#5B9BD5,color:#fff
+    style Execution fill:#e8f5e9,stroke:#2e7d32
+                    </div>
+                </div>
+                
+                <h3>Expert-in-the-Loop Decision Flow</h3>
+                
+                <div class="diagram-container">
+                    <h4>Decision Classification & Routing</h4>
+                    <div class="mermaid">
+flowchart LR
+    subgraph Input["Detection"]
+        D[Defense Agent<br/>Assessment]
+    end
+    
+    subgraph Classification["Confidence Classification"]
+        C1["< 70%<br/>Uncertain"]
+        C2["70-85%<br/>Anomaly"]
+        C3["85-90%<br/>Attribution"]
+        C4["> 90%<br/>Response"]
+    end
+    
+    subgraph Action["EITL Requirement"]
+        A1[Mandatory<br/>Escalation]
+        A2[Async Review<br/>24h SLA]
+        A3[Sync Approval<br/>Required]
+        A4[Expert Panel<br/>+ Sign-off]
+    end
+    
+    D --> C1 & C2 & C3 & C4
+    C1 --> A1
+    C2 --> A2
+    C3 --> A3
+    C4 --> A4
+    
+    style C1 fill:#ffcdd2,stroke:#c62828
+    style C2 fill:#fff9c4,stroke:#f9a825
+    style C3 fill:#c8e6c9,stroke:#2e7d32
+    style C4 fill:#bbdefb,stroke:#1565c0
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Comparison Section -->
+            <section id="comparison">
+                <h2>Reactive vs Proactive</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th class="reactive">Reactive Model</th>
+                            <th class="proactive">SFAMDF Proactive Model</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Detection Method</strong></td>
+                            <td>Pattern matching against known signatures</td>
+                            <td>Behavioral anomaly detection + patterns</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Novel Attacks</strong></td>
+                            <td>Missed until pattern added to library</td>
+                            <td>Detected via baseline deviation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Partial Patterns</strong></td>
+                            <td>Not detected (waiting for full match)</td>
+                            <td>Triggers graduated defensive posture</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coordinated Attacks</strong></td>
+                            <td>Each boundary defends independently</td>
+                            <td>Federated correlation across organizations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Human Role</strong></td>
+                            <td>Approval queue (bottleneck)</td>
+                            <td>Expert judgment at decision points</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adaptation</strong></td>
+                            <td>Manual rule updates</td>
+                            <td>Automated baseline evolution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trust Model</strong></td>
+                            <td>Implicit (allow until blocked)</td>
+                            <td>Explicit governance contracts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution Bounds</strong></td>
+                            <td>Code-level enforcement</td>
+                            <td>System-level (AgentBox sandbox)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="diagram-container">
+                    <h4>Security Maturity Model</h4>
+                    <div class="mermaid">
+flowchart LR
+    L0[Level 0<br/>Chaos] --> L1[Level 1<br/>Awareness]
+    L1 --> L2[Level 2<br/>Foundation]
+    L2 --> L3[Level 3<br/>Defense<br/>in Depth]
+    L3 --> L4[Level 4<br/>Continuous]
+    L4 --> L5[Level 5<br/>Adaptive]
+    
+    L0:::chaos
+    L1:::awareness
+    L2:::foundation
+    L3:::depth
+    L4:::continuous
+    L5:::adaptive
+    
+    classDef chaos fill:#D73B3E,color:#fff
+    classDef awareness fill:#ED7D31,color:#fff
+    classDef foundation fill:#FFC000,color:#000
+    classDef depth fill:#92D050,color:#000
+    classDef continuous fill:#00B0F0,color:#fff
+    classDef adaptive fill:#2B579A,color:#fff
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Authors Section -->
+            <section id="authors">
+                <h2>About the Initiative</h2>
+                
+                <p><strong>SFAMDF</strong> is an open research initiative developing proactive defense patterns for MCP-based agentic AI systems. We welcome collaboration, critique, and contribution from the security and MCP communities.</p>
+                
+                <p><strong>GraphSentinel</strong> is an open-source initiative applying Graph Neural Networks to security analytics, including threat correlation and anomaly detection.</p>
+                
+                <h3>Principal Collaborators</h3>
+                
+                <div class="authors">
+                    <div class="author-card">
+                        <h4>Zeyno Dodd</h4>
+                        <p class="role">R&D Architect, Conjectura R&D</p>
+                        <p>Principal collaborator on SFAMDF with focus on agentic AI defense architectures, proactive defense patterns, governance contracts, and expert-in-the-loop integration. Also contributes to GraphSentinel.</p>
+                        <p style="margin-top: 15px;"><a href="https://www.linkedin.com/in/zeynoaygendodd/">LinkedIn</a></p>
+                    </div>
+                    
+                    <div class="author-card">
+                        <h4>Mustafa Dayıoğlu</h4>
+                        <p class="role">Senior Security Architect</p>
+                        <p>Principal collaborator on SFAMDF with focus on attack surface analysis—mapping how adversaries exploit gaps between MCP compliance and operational security.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>Open Research</h3>
+                <p>SFAMDF is open research. We invite the MCP community to explore, critique, and build upon these patterns.</p>
+                <a href="https://github.com/" class="btn">View on GitHub</a>
+                <a href="mailto:contact@conjectura.net" class="btn btn-outline">Contact Us</a>
+            </div>
+            
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p><strong>SFAMDF</strong> — Secure, Federated, Adaptable Multi-Agent Defense Framework</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Open Research Initiative | January 2026</p>
+            <p style="margin-top: 10px;"><a href="https://conjectura.net">Conjectura R&D</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
