@@ -1,2 +1,3 @@
 # secops-public
-Public demo &amp; documentation 
+GraphSentinel public demos &amp; documentation 
+
